@@ -4,3 +4,6 @@ version = "0.1.0"
 authors = ["Zoe Juozapaitis <Jragonmiris@gmail.com>"]
 
 [dependencies]
+libloading = "0.4"
+common = {path = "../common"}
+lazy_static = "0.2"

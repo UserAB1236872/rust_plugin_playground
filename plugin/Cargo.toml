@@ -5,4 +5,6 @@ authors = ["Zoe Juozapaitis <Jragonmiris@gmail.com>"]
 
 [lib]
 crate_type=["dylib"]
+
 [dependencies]
+common = {path = "../common"}

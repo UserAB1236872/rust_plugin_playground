@@ -1,7 +1,11 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
+pub struct Shared {
+    pub foo: usize,
+    pub bar: i32,
+    pub x: Option<i32>,
 }
+
+pub trait SharedTrait {
+    fn bar(&mut self);
+}
+
+pub trait SharedDropper: SharedTrait+Drop {}

@@ -1,7 +1,59 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
+extern crate common;
+use common::{Shared, SharedTrait, SharedDropper};
+
+use std::ops::Drop;
+
+struct Private {
+    ptr: *mut i32,
+}
+
+impl SharedTrait for Private {
+    fn bar(&mut self) {
+        unsafe {
+            *self.ptr = 30;
+        }
     }
+}
+
+impl Drop for Private {
+    fn drop(&mut self) {
+        unsafe {
+            *self.ptr = 90;
+        }
+    }
+}
+
+#[no_mangle]
+pub fn native_rust(x: Option<i32>) -> Option<i32> {
+    match x {
+        Some(x) => { Some(x+2) },
+        None => None,
+    }
+}
+
+#[no_mangle]
+pub fn shared_struct(mut s: Shared) -> Shared {
+    s.foo += 1;
+    s.bar += 2;
+
+    match s.x {
+        Some(ref mut x) => { *x -= 2 },
+        None => {},
+    };
+
+    s
+}
+
+#[no_mangle]
+pub fn boxed_shared_trait(ptr: *mut i32) -> Box<SharedTrait> {
+    Box::new(Private {
+        ptr: ptr
+    })
+}
+
+#[no_mangle]
+pub fn boxed_shared_dropper(ptr: *mut i32) -> Box<SharedDropper> {
+    Box::new(Private {
+        ptr: ptr
+    })
 }
