@@ -1,0 +1,8 @@
+[package]
+name = "plugin"
+version = "0.1.0"
+authors = ["Zoe Juozapaitis <Jragonmiris@gmail.com>"]
+
+[lib]
+crate_type=["dylib"]
+[dependencies]
