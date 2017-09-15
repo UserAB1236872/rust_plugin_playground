@@ -1,5 +1,5 @@
 extern crate common;
-use common::{Shared, SharedTrait, SharedDropper};
+use common::{Shared, SharedTrait};
 
 use std::ops::Drop;
 
@@ -23,8 +23,6 @@ impl Drop for Private {
     }
 }
 
-impl SharedDropper for Private {}
-
 #[no_mangle]
 pub fn native_rust(x: Option<i32>) -> Option<i32> {
     match x {
@@ -35,11 +33,11 @@ pub fn native_rust(x: Option<i32>) -> Option<i32> {
 
 #[no_mangle]
 pub fn takes_ref(x: &mut i32) {
-    x = 99
+    *x = 99;
 }
 
 #[no_mangle]
-pub fn pushes_vec(v: &mut Vec<usize>) {
+pub fn pushes_vec(v: &mut Vec<i32>) {
     v.push(5);
 }
 

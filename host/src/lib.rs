@@ -75,16 +75,32 @@ mod test {
         // This means it drops!
         assert_eq!(x, 90);
     }
-    
+
+    #[test]
     fn test_takes_ref() {
         let takes_ref = unsafe {
-            PLUGIN.get::<fn (&mut i32)>(b"takes_ref\0")
-            .expect("Symbol not present")
+            PLUGIN.get::<fn(&mut i32)>(b"takes_ref\0").expect(
+                "Symbol not present",
+            )
         };
 
         let mut x = 0;
         takes_ref(&mut x);
 
-        assert_eq(x, 99);
+        assert_eq!(x, 99);
+    }
+
+    #[test]
+    fn test_pushes_vec() {
+        let pushes_vec = unsafe {
+            PLUGIN.get::<fn(&mut Vec<i32>)>(b"pushes_vec\0").expect(
+                "Symbol not present",
+            )
+        };
+
+        let mut v = vec![1, 2, 3, 4];
+        pushes_vec(&mut v);
+
+        assert_eq!(v, vec![1,2,3,4,5]);
     }
 }
