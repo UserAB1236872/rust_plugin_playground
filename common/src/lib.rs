@@ -7,5 +7,3 @@ pub struct Shared {
 pub trait SharedTrait {
     fn bar(&mut self);
 }
-
-pub trait SharedDropper: SharedTrait+Drop {}

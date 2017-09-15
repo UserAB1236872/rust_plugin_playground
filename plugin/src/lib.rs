@@ -23,10 +23,12 @@ impl Drop for Private {
     }
 }
 
+impl SharedDropper for Private {}
+
 #[no_mangle]
 pub fn native_rust(x: Option<i32>) -> Option<i32> {
     match x {
-        Some(x) => { Some(x+2) },
+        Some(x) => Some(x + 2),
         None => None,
     }
 }
@@ -37,8 +39,8 @@ pub fn shared_struct(mut s: Shared) -> Shared {
     s.bar += 2;
 
     match s.x {
-        Some(ref mut x) => { *x -= 2 },
-        None => {},
+        Some(ref mut x) => *x -= 2,
+        None => {}
     };
 
     s
@@ -46,14 +48,5 @@ pub fn shared_struct(mut s: Shared) -> Shared {
 
 #[no_mangle]
 pub fn boxed_shared_trait(ptr: *mut i32) -> Box<SharedTrait> {
-    Box::new(Private {
-        ptr: ptr
-    })
-}
-
-#[no_mangle]
-pub fn boxed_shared_dropper(ptr: *mut i32) -> Box<SharedDropper> {
-    Box::new(Private {
-        ptr: ptr
-    })
+    Box::new(Private { ptr: ptr })
 }
