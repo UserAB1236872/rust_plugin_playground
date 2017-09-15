@@ -34,6 +34,16 @@ pub fn native_rust(x: Option<i32>) -> Option<i32> {
 }
 
 #[no_mangle]
+pub fn takes_ref(x: &mut i32) {
+    x = 99
+}
+
+#[no_mangle]
+pub fn pushes_vec(v: &mut Vec<usize>) {
+    v.push(5);
+}
+
+#[no_mangle]
 pub fn shared_struct(mut s: Shared) -> Shared {
     s.foo += 1;
     s.bar += 2;
